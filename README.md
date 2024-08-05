@@ -1,6 +1,17 @@
 # Netflix GPT
 - Create React App
 - Configured TailwindCSS
+- Header
+- Routing of App
+- Login form
+- sign up form
+- Form validation
+- useRef Hook
+- Firebase Setup
+- Deploying our app to production
+- Create Signup user account
+- Implement Sign in user api
+- Created Redux store with userSlice
 
 
 
