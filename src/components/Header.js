@@ -4,7 +4,9 @@ import { auth } from '../utils/firebase';
 import { useDispatch, useSelector } from 'react-redux';
 import { addUser, removeUser } from '../utils/userSlice';
 import { useNavigate } from 'react-router-dom';
-import { IMG_URL } from '../utils/constants';
+import { IMG_URL, NETFLIX_LOGO_URL, SUPPORTED_LANGUAGE } from '../utils/constants';
+import { toggleGptSearch } from '../utils/gptSlice';
+import { changeLanguage } from '../utils/configSlice';
 
 const Header = () => {
 
@@ -41,13 +43,36 @@ const Header = () => {
             // An error happened.
           });
     };
+
+   const handleGptSearchClick =() => {
+        dispatch(toggleGptSearch());
+   } 
+
+   const handleLanguageChange = (e) => {
+    dispatch(changeLanguage(e.target.value));
+   }
+
+   const showGptSearch = useSelector(store => store.gpt.showGptSearch);
+
   return (
     <div className='absolute w-full px-8 py-2 bg-gradient-to-b from-black z-10 flex justify-between'>
         <img className='w-44'
-             src="https://cdn.cookielaw.org/logos/dd6b162f-1a32-456a-9cfe-897231c7763c/4345ea78-053c-46d2-b11e-09adaef973dc/Netflix_Logo_PMS.png"
+             src={NETFLIX_LOGO_URL}
              alt="logo" />
 
         {user && <div className='flex p-4'>
+          {showGptSearch && <select className="bg-white text-black p-2 m-1 px-2 text-lg font-semibold rounded-lg"
+           onChange={handleLanguageChange}>
+            {SUPPORTED_LANGUAGE.map((lang) => (
+              <option key={lang.identifier} value={lang.identifier}>
+                {lang.name}
+              </option>
+            ))}
+          </select>}
+          <button className="bg-white text-black p-2 m-1 px-2 text-lg font-bold rounded-lg"
+           onClick={handleGptSearchClick}>
+            {showGptSearch ? "Home Page" : "GPT Search"}
+          </button>
             <img 
               className='w-10 h-10 m-2'
               alt="usericon"
@@ -62,4 +87,4 @@ const Header = () => {
   )
 }
 
-export default Header
+export default Header;
