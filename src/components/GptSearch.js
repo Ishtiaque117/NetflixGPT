@@ -6,7 +6,7 @@ import { BG_IMG_URL } from '../utils/constants'
 const GptSearch = () => {
   return (
     <div>
-        <div className='absolute inset-0 -z-10'>
+        <div className='fixed inset-0 -z-10'>
         <img 
           src={BG_IMG_URL} 
           alt="Background" 
@@ -19,4 +19,5 @@ const GptSearch = () => {
   )
 }
 
-export default GptSearch
+export default GptSearch;
+
