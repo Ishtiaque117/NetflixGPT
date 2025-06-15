@@ -30,6 +30,8 @@ const Login = () => {
 
     setErrMsg(msg);
 
+    console.log("check for email pass validation");
+
     if(msg) return;
 
 
@@ -42,8 +44,13 @@ const Login = () => {
         updateProfile(user, {
             displayName: name.current.value, photoURL: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ2LDSBaRpfXMfcl9UH3u4o10Rk4TXZ6daN0w&s"
           }).then(() => {
-            const {uid, email, displayName} = auth.currentUser;
-            dispatch(addUser({uid: uid, email: email, displayName: displayName
+            const {uid, email, displayName, photoURL} = auth.currentUser;
+              dispatch(
+                addUser({
+                    uid: uid, 
+                    email: email, 
+                    displayName: displayName,
+                    photoURL: photoURL
               }));
           }).catch((error) => {
             // An error occurred
@@ -61,7 +68,6 @@ const Login = () => {
     .then((userCredential) => {
       // Signed in 
       const user = userCredential.user;
-      // console.log(user);
     })
     .catch((error) => {
       const errorCode = error.code;
@@ -91,7 +97,7 @@ const Login = () => {
             <h1 className='text-2xl font-bold my-4'>{isSignInForm ? "Sign In" : "Sign Up"}</h1>
 
             {!isSignInForm && 
-             <input type="text" placeholder='Full Name'
+             <input ref={name} type="text" placeholder='Full Name'
              className='p-2 my-1 w-full bg-gray-700 rounded-md'/>
              }
 

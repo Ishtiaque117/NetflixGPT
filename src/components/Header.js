@@ -6,7 +6,7 @@ import { addUser, removeUser } from '../utils/userSlice';
 import { useNavigate } from 'react-router-dom';
 import { IMG_URL, NETFLIX_LOGO_URL, SUPPORTED_LANGUAGE } from '../utils/constants';
 import { clearGptMovies, toggleGptSearch } from '../utils/gptSlice';
-import { changeLanguage } from '../utils/configSlice';
+import { changeLanguage,clearLanguage } from '../utils/configSlice';
 
 const Header = () => {
 
@@ -19,12 +19,13 @@ const Header = () => {
     useEffect( () => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             if (user) {
-              const {uid, email, displayName} = user;
+              const {uid, email, displayName, photoURL} = user;
               dispatch(
                 addUser({
                     uid: uid, 
                     email: email, 
                     displayName: displayName,
+                    photoURL: photoURL
               }));
               navigate("/browse");
             } else {
@@ -40,6 +41,9 @@ const Header = () => {
     
         signOut(auth).then(() => {
             // Sign-out successful.
+            if(showGptSearch) dispatch(clearGptMovies());
+            dispatch(toggleGptSearch());
+            dispatch(clearLanguage());
           }).catch((error) => {
             // An error happened.
           });
@@ -48,6 +52,7 @@ const Header = () => {
    const handleGptSearchClick =() => {
        if(showGptSearch) dispatch(clearGptMovies());
         dispatch(toggleGptSearch());
+        dispatch(clearLanguage());
    } 
 
    const handleLanguageChange = (e) => {

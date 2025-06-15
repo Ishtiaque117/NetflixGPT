@@ -6,6 +6,7 @@ const VideoBackGround = ({movieId}) => {
  
   const trailerVideo = useSelector(store => store.movies?.trailerVideo) ;
   
+  
   useMovieTrailer(movieId);
   
   return (
